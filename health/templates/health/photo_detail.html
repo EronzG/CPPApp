@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+<div><img src="{{ photo.image.url }}" alt="" /></div>
+
+<form action="post" enctype="multipart/form-data">
+    {{ form }}
+    <a href="{{ photo.image.url }}" download="photo"><button type="submit">Download</button></a>
+</form>
+    
+{% endblock main %}
+    

@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+
+<!---->
+
+{% block main %}
+
+<header class="text-center mt-5 mb-5">
+  <h2>Welcome, new user.</h2>
+  <p>Please sign up here</p>
+</header>
+
+<div class="row">
+  <form method="post" class="form col-6 mx-auto border border-dark p-5">
+    {% block raw %}{% csrf_token %} {{ form|crispy }}{% endblock raw %}
+    <div class="row justify-content-center">
+      <button type="submit" class="btn btn-outline-dark col-4 mt-4">Sign up</button>
+    </div>
+    <input
+      type="hidden"
+      name="next"
+      value="{% url 'health:healthdata-create' %}"
+    />
+  </form>
+</div>
+
+{% endblock main %}

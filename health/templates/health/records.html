@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block links %}
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+{% endblock links %}
+    
+
+{% block main %}
+<h1 class="mb-3">Daily logs</h1>
+<div class="row">
+    {% for dailylog in dailylog_list %}
+    <div class="card text-white bg-dark mb-3 col-md-3 w-auto" style="max-width: 18rem;">
+        <div class="card-header">{{ dailylog.entry_date }}</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <h5 class="card-title">{{ dailylog.steps }} steps</h5>
+                    <h5 class="">felt {{ dailylog.mood }}</h5>
+                </div>
+                <div class="col-6">
+                    <i class='fas fa-walking ml-auto' style='font-size:72px;color:rgb(211, 207, 207)'></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+<p class="col-12">You have not made an input yet, <a href="{% url 'health:dailylog-create' %}">log one</a> now.</p>
+{% endfor %}
+</div>
+
+
+<hr class="my-4 border border-dark">
+
+<h1>Activity Logs</h1>
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Activity</th>
+        <th scope="col">Duration</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for activitylog in activitylogs %}
+        <tr>
+            <th scope="row">*</th>
+            <td>{{ activitylog.entry_date }}</td>
+            <td>{{ activitylog.get_activity_display }}</td>
+            <td>{{ activitylog.duration }} minutes</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<hr class="my-4 border border-dark">
+
+<h1>Gallery</h1>
+
+<div class="mb-4">
+    <div class="row mb-5">
+        {% for photo in photos %}
+        <img src="{{ photo.image.url }}" alt="" class="col-4">
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock main %}
+    

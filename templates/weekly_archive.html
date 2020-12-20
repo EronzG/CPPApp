@@ -1,0 +1,83 @@
+{% extends 'dashboard.html' %}
+
+{% block link_to_weekly %}
+<li class="nav-item border border-right-0 border-left-0 border-top-0">
+  <a
+    class="nav-link current"
+    href="#"
+  >
+    <span></span>
+    Current week
+  </a>
+</li>
+{% endblock link_to_weekly %}
+
+
+{% block top_area %}
+  
+{% endblock top_area %}
+
+
+{% block dailylog_area %}
+  {% for dailylog in dailylogs %}
+    <p>{{ dailylog }}</p>
+  {% empty %}
+  .........
+  {% endfor %}
+
+  {% for activity in object_list %}
+  <p>{{ activity }}</p>
+  {% empty %}
+  .........
+  {% endfor %}
+
+{{ steps_report }}
+{% endblock dailylog_area %}
+
+
+{% block no_activitylog %}
+<p>
+  You have not recorded any activity on this week,
+  <a href="{% url 'health:activitylog-create' %}" class="btn-sm btn-dark">Add one</a> now.
+</p>
+{% endblock no_activitylog %}
+  
+
+{% block photo_area_title %}
+  Photos of the week
+{% endblock photo_area_title %}
+
+
+{% block no_photos %}
+  <p class="col-12">You have not uploaded any images this week, click add photo to make an upload to your gallery..</p> 
+{% endblock no_photos %}
+  
+
+<h1>Week {{ week|date:'W' }}</h1>
+
+<ul>
+  {% for dailylog in object_list %}
+  <li>{{ dailylog.entry_date|date:"F j, Y" }}: {{ dailylog.mood }}</li>
+
+  {% empty %}
+  <p>Nothing this week!</p>
+  {% endfor %}
+</ul>
+
+<p>
+  {% if previous_week %}
+  <!---->
+  Previous Week: {{ previous_week|date:"W" }}
+  <!---->
+  of year {{ previous_week|date:"Y" }}
+  <!---->
+  {% endif %}
+  <!---->
+  {% if previous_week and next_week %}--{% endif %}
+  <!---->
+  {% if next_week %} Next week: {{ next_week|date:"W" }}
+  <!---->
+  of year {{ next_week|date:"Y" }}
+  <!---->
+  {% endif %}
+</p>

@@ -1,0 +1,20 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %}
+
+<!---->
+
+{% block main %}
+
+<h2 class="text-center mt-5 mb-5">Enter your health data</h2>
+
+<div class="row">
+  <form method="post" class="form form col-6 mx-auto border border-dark p-5">
+    {% csrf_token %} {{ form|crispy }}
+  
+    <div class="row justify-content-center">
+      <button type="submit" class="btn btn-outline-dark col-4">Save Data</button>
+    </div>
+    <input type="hidden" name="next" value="{% url 'dashboard' %}" />
+  </form>
+</div>
+
+{% endblock main %}

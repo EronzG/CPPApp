@@ -1,0 +1,270 @@
+{% extends 'base.html' %}
+
+<!---->
+
+{% block links %}
+
+
+{% endblock links %}
+
+<!---->
+
+{% block style %}
+<style>
+  .bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+</style>
+{% endblock style %}
+
+<!---->
+
+{% block content %}
+
+<div class="container-fluid mt-5 py-4">
+  <div class="row">
+    <nav
+      id="sidebarMenu"
+      class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse position-fixed border-right"
+    >
+      <div class="sidebar-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a
+              class="nav-link border border-right-0 border-left-0 border-top-0"
+              href="{% url 'health:healthdata-update' user.id %}"
+            >
+              <span data-feather="file"></span>
+              Health data
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border border-right-0 border-left-0 border-top-0" href="{% url 'health:dailylog-create' %}">
+              <span data-feather="shopping-cart">
+              </span>
+              Daily logs
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link border border-right-0 border-left-0 border-top-0" href="{% url 'health:activitylog-create' %}">
+              <span></span>
+              Activity logs
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'health:all-records'  %}">
+              <span data-feather="bar-chart-2"></span>
+              Records
+            </a>
+          </li>
+        </ul>
+
+        <hr class="border-dark"/>
+
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item border border-right-0 border-left-0 border-top-0">
+            <a
+              class="nav-link"
+              href="{% url 'dashboard' %}"
+            >
+            
+              <span></span>
+              Today
+            </a>
+          </li>
+
+          
+          {% block link_to_weekly %}
+          <!-- <li class="nav-item border border-right-0 border-left-0 border-top-0">
+            <a
+              class="nav-link"
+              href="{% url 'weekly-archive' day|date:'Y' day|date:'W' %}"
+            >
+            
+              <span></span>
+              Current week
+            </a>
+          </li> -->
+          {% endblock link_to_weekly %}
+            
+          <!-- <li class="nav-item border border-right-0 border-left-0 border-top-0">
+            <a
+              class="nav-link"
+              href="#"
+            >
+            
+              <span></span>
+              Current month
+            </a>
+          </li> -->
+     
+        </ul>
+      </div>
+    </nav>
+    {% block main %}
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">Dashboard</h1>
+        <!-- <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+              Share
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">
+              Export
+            </button>
+          </div>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-secondary dropdown-toggle"
+          >
+            <span data-feather="calendar"></span>
+            This week
+          </button>
+        </div> -->
+      </div>
+      
+      
+      {% block top_area %}
+      {% if healthdata %}
+      <div class="col-6 row">
+        <div class="col-12"><h3>{{ healthdata.user.get_full_name }}</h3></div>
+        <div class="col-6"><p>{{ healthdata.get_gender_display }}</p></div>
+        <div class="col-6"><p>{{ healthdata.age }} year(s) old</p></div>
+        <div class="col-6"><p>Weight(kg): {{ healthdata.mass }}</p></div>
+        <div class="col-6"><p>Height(cm): {{ healthdata.height }}</p></div>
+        <div class="col-6"><p>BMI: {{ bmi }}</p></div>
+        <div class="col-6"><p>BMI report: {{ bmi.report }}</p></div>
+      </div>
+      {% else %}
+      <p class="col-6"></p> Please record your health information <a href="{% url 'health:healthdata-create'  %}" class="btn-sm btn-dark">here</a> to recieve health support and tips
+      {% endif %}
+      {% endblock top_area %}
+
+      <hr class="mt-5 mb-5 border">
+
+      
+      {% block dailylog_area %}
+      <h2 mt-5>{{ day }}</h2>
+      
+      {% if dailylog %}
+      <div class="col-6">
+        <p>
+          You made {{ dailylog.steps }} steps and recorded a "{{ dailylog.mood }}"
+          mood.
+        </p>
+      </div>
+
+      <div class="col-6">
+        <h3>Day's reports:</h3>
+        <p>{{ steps_report }}</p>
+      </div>
+
+      {% else %}
+        
+      {% block no_dailylog %}
+      <p>
+        You have not made a Daily Log for today, do you wish to
+        <a href="{% url 'health:dailylog-create' %}" class="btn-sm btn-dark">add one now</a>?
+      </p>
+      {% endblock no_dailylog %}
+      {% endif %}
+      {% endblock dailylog_area %}
+      
+        
+      <p>
+        {% if previous_day %} Previous Day: <a href="{% url 'daily-archive' previous_day|date:'Y' previous_day|date:'b' previous_day|date:'j' %}">{{ previous_day }}</a> {% endif %}
+        <!---->
+        {% if previous_day and next_day %}--{% endif %}
+        <!---->
+        {% if next_day %} Next Day: <a href="{% url 'daily-archive' next_day|date:'Y' next_day|date:'b' next_day|date:'j' %}">{{ next_day }}</a> {% endif %}
+      </p>
+
+      <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+      <hr class="mt-5 mb-5 border">
+
+      <h2 class="col-12">Activities on this day</h2>
+      
+      {% if object_list %}
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Activity</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for activitylog in object_list %}
+            <tr>
+              <td>*</td>
+              <td>{{activitylog.get_activity_display}}</td>
+              <td>{{activitylog.duration}}</td>
+            </tr>
+            {% empty %}
+
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <p><a href="{% url 'health:activitylog-create' %}" class="btn btn-dark">Add more</a></p>
+      <p>{{ activity_report }}</p>
+      {% else %}
+
+      {% block no_activitylog %}
+      <p>
+        You have not recorded any activity on this day,
+        <a href="{% url 'health:activitylog-create' %}" class="btn-sm btn-dark">Add one</a> now.
+      </p>
+      {% endblock no_activitylog %}
+      {% endif %}
+
+      <hr class="mt-5 mb-5 border">
+
+      
+      <h2>{% block photo_area_title %}Photos of the day{% endblock photo_area_title %}</h2>
+
+
+      <div class="col-12 row">
+        {% for photo in photos %}
+        <a href="{% url 'health:photo-detail' photo.pk %}" class="col-4">
+          <div><img src="{{ photo.image.url }}" alt="{{ photo.caption }}" width="100%" height="auto"></div>
+        </a>
+        {% empty %}
+        {% block no_photos %}
+        <p class="col-12">You have not uploaded any photos on this day, click add photo to make an upload to your gallery.</p>
+        {% endblock no_photos %}
+        {% endfor %}
+        <p><a href="{% url 'health:photo-create' %}" class="btn btn-dark">Add photo</a></p>
+      </div>
+    </main>
+  </div>
+</div>
+{% endblock main %}
+<!---->
+{% endblock content %}
+
+<!---->
+
+{% block script %}
+
+<script
+  src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+  integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+  crossorigin="anonymous"
+></script>
+{% endblock script %}

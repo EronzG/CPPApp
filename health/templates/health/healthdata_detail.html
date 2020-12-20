@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+<!---->
+
+{% block main %}
+
+<p>Name: {{ healthdata.user.name }}</p>
+<p>mass: {{ healthdata.mass }}</p>
+<p>height: {{ healthdata.height }}</p>
+<p>gender: {{ healthdata.gender }}</p>
+<p>age: {{ healthdata.age }}</p>
+<p>bmi: {{ bmi }}</p>
+<p>bmi report: {{ bmi_report }}</p>
+
+<p><a href="{% url 'health:healthdata-update' user.id %}">edit</a></p>
+
+{% endblock main %}
