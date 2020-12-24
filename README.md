@@ -1,6 +1,6 @@
 # wellness_app
 
-Firstly, clone the repository:
+First, clone the repository:
 
 $git clone https://github.com/EronzG/CPPApp.git
 
