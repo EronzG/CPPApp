@@ -1,5 +1,5 @@
 # wellness_app
-# python django
+
 The first thing to do is to clone the repository:
 $git clone https://github.com/EronzG/CPPApp.git
 
