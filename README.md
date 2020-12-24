@@ -1,6 +1,7 @@
 # wellness_app
 
 The first thing to do is to clone the repository:
+
 $git clone https://github.com/EronzG/CPPApp.git
 
 Create a virtual environment to install dependencies in and activate it. A Venv virtual environment can be created by running the command:
