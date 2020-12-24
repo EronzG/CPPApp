@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'll(78w8mn30nqq53kc8chzs24&&5ej67mbu8lzmmo)z%1=2r-o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['cloudplatformapp-env.eba-mgkvmj32.us-east-1.elasticbeanstalk.com']
 
 
 # Application definition
